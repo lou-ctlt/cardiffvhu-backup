@@ -14,14 +14,13 @@ Structure : Page authentification -> home client avec les dossiers et la possibi
 	ou Page authentification -> home admin avec liste des clients, possibilité de modifier et/ou supprimer + création de nouveau(x) compte(s)
 
 Fonctionnalités : 
-			Pour le client -
+			Pour le client
 					-affichages des dossiers par nom ( ordre alphabétique )
 					- création de dossiers
 					- recherche de dossiers par noms
 					- upload de photos ( possibilité d'upload multiple depuis une bibliothèque locale pour plus de rapidité ) et prise de photo ( ouverture de la camera et enregistrement )
 					- suppression de dossier ou de photo
-					
-			Pour l'admin ->	
+			Pour l'admin
 					- affichage de la liste des clients par nom et @
 					- création d'un client
 					- modification d'un client
