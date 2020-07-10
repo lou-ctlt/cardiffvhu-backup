@@ -1,5 +1,7 @@
 Le projet
+
 Existant : logiciel CardiffVHU -> Gestion de pièces pour les entreprises de VHU ( voir sur internet une meilleure def + capture d'écran interface principale )
+
 Explication projet :  Interface permettant aux clients de se connecter à un espace privé et d'envoyer des photos sur un serveur relié au logiciel. L'interface devra être utilisable sur smartphone et tablette afin que le client puisse prendre des photos rapidement et les retrouver sur le logiciel. Le lien avec le logiciel se fait via l'API développé au sein de ce même projet.
 
 Avantages : possibilité de prendre des photos rapidement et "sur le vif", les enregistrer directement et les avoir à dispo instantanément depuis un smartphone, une table ou une site web + dans le logiciel. Connexion simple et rapide avec pseudo+mdp. L'espace admin permet à CardiffVHU de créer les espaces clients et de leur donner leurs identifiants sans que les clients n'aient à le faire.
