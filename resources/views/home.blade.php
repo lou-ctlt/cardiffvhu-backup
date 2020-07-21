@@ -38,7 +38,7 @@
                     @foreach($users as $user)
                         <tr class='text-center'>
                             <td class="border border-grey">{{$user->id}}</td>
-                            <td class="border border-grey">{{$user->name}}</td>
+                            <td class="border border-grey">{{$user->username}}</td>
                             <td class="border border-grey">{{$user->email}}</td>
                             <td class="border border-grey">{{$user->role}}</td>
                             <td class="border border-grey"><a href="{{ url('admin/edit/' . $user->id) }}" type="button" class="btn btn-light"><i class="fas fa-pen"></i></a></td>
@@ -63,12 +63,12 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nom') }}</label>
+                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Nom') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                                @error('name')
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -142,7 +142,7 @@
         </div>
     </div>
 
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center my-2">
         <div class="col-md-3">
             <input id="searchbar" type="text" placeholder="Rechercher un dossier"> 
         </div>

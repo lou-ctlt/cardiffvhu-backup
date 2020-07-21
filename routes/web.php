@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Routes pour les fonctions des dossiers
-Route::get('folders/{folder_id}', 'WebController@getFolder'); //afficher le dossier et les photos
+Route::get('folders/{folder_id}', 'WebController@getFolder')->name('folder'); //afficher le dossier et les photos
 Route::post('folders', 'WebController@createFolder'); // créer un nouveau dossier
 Route::get('folders/delete/{id}', 'WebController@deleteFolder'); // supprimer un dossier
 
@@ -29,6 +29,7 @@ Route::get('folders/delete/{id}', 'WebController@deleteFolder'); // supprimer un
 Route::post('photos', 'WebController@uploadPhoto')->name('uploadPhoto'); // ajouter une photo dans le dossier
 Route::put('photos/{id}', 'WebController@updatePhoto'); // modifier une photo
 Route::get('photos/delete','WebController@deletePhoto')->name('deletePhoto'); // supprimer une photo
+Route::get('photos/{folder_id}/{photo_id}', 'WebController@showPhoto'); // Afficher une photo
 
 // Routes pour les fonctions de l'espace compte
 Route::get("account/{id}", "AccountController@index");// afficher la page compte

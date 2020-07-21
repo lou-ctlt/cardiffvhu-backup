@@ -11,12 +11,12 @@
                 <input type="text" name="id" value="{{ $user->id }}" hidden>
                 <div class="form-group row">
                     <div class="col-md-6 offset-md-3">
-                        <label for="name" class="col-md-8 col-form-label">{{ __('Nom') }}</label>
-                        <input id="name" type="text" name="name" class="form-control {{ $errors->has('name') ? 'has-error' : '' }}" value="{{ $errors->has('name') ? old(name) : $user->name }}" autocomplete="name" autofocus>
+                        <label for="username" class="col-md-8 col-form-label">{{ __('Nom') }}</label>
+                        <input id="username" type="text" name="username" class="form-control {{ $errors->has('username') ? 'has-error' : '' }}" value="{{ $errors->has('username') ? old(username) : $user->username }}" autocomplete="username" autofocus>
                     
-                        @if ( $errors->has('name') )
+                        @if ( $errors->has('username') )
                             <span class="help-block">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('username') }}</strong>
                             </span>
                         @endif
                     </div>

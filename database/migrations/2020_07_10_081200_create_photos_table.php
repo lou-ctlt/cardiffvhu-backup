@@ -20,7 +20,7 @@ class CreatePhotosTable extends Migration
             $table->unsignedBigInteger('folder_id');
             $table->foreign('folder_id')->references('id')->on('folders');
             $table->string('watermark');
-            $table->string("photo_path")->unique();
+            $table->string("photo")->unique();
             $table->timestamps();
         });
     }

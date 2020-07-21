@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use App\Photo;
 use App\User;
 use App\Folder;
@@ -73,19 +74,19 @@ class WebController extends Controller
     // Uploader une photo
     public function uploadPhoto(Request $request)
     {
-        foreach($request->file('photo_path') as $photo_path){
+        foreach($request->file('photo') as $stored){
             $user_id = Auth::user()->id;
 
             // Restriction de taille et d'extension des photos
             $rules = [
-                'photo_path' => 'required|mimes:jpeg,png,jpg,gif,pdf|max:1080'
+                'photo' => 'required|mimes:jpeg,png,jpg,gif,pdf|max:2048'
             ];
 
             // Mise en place des messages d'erreur
             $validator = Validator::make($request->all(), [
-                'photo_path.required' => 'Veuillez attacher une photo',
-                'photo_path.mimes' =>'L\'extension du fichier est incorrecte',
-                'photo_path.max' =>'La taille du fichier est trop importante',
+                'photo.required' => 'Veuillez attacher une photo',
+                'photo.mimes' =>'L\'extension du fichier est incorrecte',
+                'photo.max' =>'La taille du fichier est trop importante',
             ]);
 
             if($validator->fails()){
@@ -97,8 +98,15 @@ class WebController extends Controller
 
             // Enregistrement de la photo en local
             $photoName = Str::random(40) . ".png";
-            $destinationPhotoPath = storage_path('/app/public/photos/client' . $user_id .'/' . $request->folder);
-            $photo_path->move($destinationPhotoPath, $photoName);
+            $destinationPhotoPath = storage_path('/app/public/photos/Client' . $user_id . '/' . $request->folder);
+            $stored->move($destinationPhotoPath, $photoName);
+
+            // Resize de la photo pour qu'elle ne soit pas trop lourde
+            $resized = Image::make(public_path('storage/photos/Client' . $user_id . '/' . $request->folder . '/' .$photoName))
+                    ->resize(1000, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+            $resized->save();
 
             // Checkbox watermark
             if($request->watermark === "1"){
@@ -108,7 +116,7 @@ class WebController extends Controller
             };
 
             // Enregistrement des données dans la bdd
-            $photo->photo_path =  $photoName;    
+            $photo->photo =  $photoName;    
             $photo->user_id = $user_id;
             $photo->folder_id = $request->folder_id;
             $photo->watermark = $watermark;
@@ -116,13 +124,41 @@ class WebController extends Controller
             $photo->save(); // enregistrement
 
             if($watermark === "yes"){
+                $wtm = Image::make(public_path('storage/photos/Client' . $user_id .'/watermark.png'));
+                $wtmwidth = $wtm->width();
+                $wtmheight = $wtm->height();
+
                 $withWatermark = Image::make($destinationPhotoPath . "/" . $photoName); // récupération de la photo
-                $withWatermark->insert(storage_path('app/public/photos/client' . $user_id . '/watermark.png')); // ajout du watermark
+                $photowidth = $withWatermark->width();
+                $photoheight = $withWatermark->height();
+
+                $x = 0;
+                $y = 0;
+
+                while($y<=$photoheight){
+                    $withWatermark->insert(storage_path('app/public/photos/Client' . $user_id . '/watermark.png'), 'top-left', $x, $y); // ajout du watermark
+                    $x+=$wtmwidth;
+                    if($x>=$photowidth){
+                        $x=0;
+                        $y+=$wtmheight;
+                    }
+                }
                 $withWatermark->save(); // enregistrement définitif
             };
         }
 
         return Redirect::back()->withSuccess('message', 'Photo enregistrée !');
+    }
+
+    // Afficher une photo
+    public function showPhoto(Request $request)
+    {
+        $folder_id = $request->folder_id;
+        $photo_id = $request->photo_id;
+        $folders = Folder::where('id', $folder_id)->get();
+        $photos = Photo::where('id', $photo_id)->get();
+
+        return view('singlephoto')->with('folders', $folders)->with('photos', $photos);
     }
 
     // Supprimer une photo

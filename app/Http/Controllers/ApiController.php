@@ -140,7 +140,7 @@ class ApiController extends Controller
     public function createUser(Request $request)
     {
             $user = new User;
-            $user->name = $request->name;
+            $user->username = $request->username;
             $user->role = $request->role;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
@@ -157,7 +157,7 @@ class ApiController extends Controller
     {
         if(User::where('id', $id)->exists()){
             $user = User::find($id);
-            $user->name = is_null($request->name) ? $user->name : $request->name;
+            $user->username = is_null($request->username) ? $user->username : $request->username;
             $user->role = is_null($request->role) ? $user->role : $request->role;
             $user->email = is_null($request->email) ? $user->email : $request->email;
             $user->save();

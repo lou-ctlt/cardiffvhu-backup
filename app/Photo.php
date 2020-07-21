@@ -8,7 +8,7 @@ class Photo extends Model
 {
     protected $table = 'photos';
     
-    protected $fillable =['photo_path'];
+    protected $fillable =['photo'];
 
     protected $primaryKey = "photo_id";
 }

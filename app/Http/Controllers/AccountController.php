@@ -27,15 +27,15 @@ class AccountController extends Controller
     {
         // Règles
         $rules = [
-            'name' => "string|required",
+            'username' => "string|required",
             'email' => 'email|required',
             'watermark' => 'mimes:png|max:1080'
         ];
 
         // Messages d'erreur
         $validator = Validator::make($request->all(), [// Mise en place des messages d'erreurs liés au champs correspondants (en fonction des règles établies ci-dessus)
-            'name.string' => 'Le nom de l\'utilisateur.trice ne doit pas comporter de caractères spéciaux',
-            'name.required' => 'Le nom de l\'utilisateur.trice est obligatoire',
+            'username.string' => 'Le nom de l\'utilisateur.trice ne doit pas comporter de caractères spéciaux',
+            'username.required' => 'Le nom de l\'utilisateur.trice est obligatoire',
             'email.email' => 'L\'adresse mail n\'est pas correcte',
             'email.required' => 'L\'adresse mail de l\'utilisateur.trice est obligatoire',
             'photo_path.mimes' =>'L\'extension du fichier est incorrecte, choississez un fichier en .png',
@@ -58,7 +58,7 @@ class AccountController extends Controller
 
 
         $user = User::where('id', $request->id)->update([
-            "name" => $request->name,
+            "username" => $request->username,
             "email" => $request->email,
             "watermark" => $watermarkName,
         ]);
